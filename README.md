@@ -1,7 +1,5 @@
 # Automatic-Hand-Sanitizer-Dispenser-using-Arduino
 
-# Automatic Hand Sanitizer Dispenser
-
 This project demonstrates the development of a contactless automatic hand sanitizer dispenser using an ultrasonic sensor and a microcontroller (such as Arduino) to detect the presence of a user's hands and dispense sanitizer. This solution helps prevent the spread of germs by eliminating the need for physical touch, making it suitable for homes, offices, and public places.
 
 ## Table of Contents
@@ -31,7 +29,7 @@ This project demonstrates the development of a contactless automatic hand saniti
 
 ## Circuit Diagram
 
-![Circuit Diagram](circuit-diagram-link-here)
+![Circuit Diagram](Automatic Hand Sanitizer- Circuit Diagram.jpg)
 
 - Connect the ultrasonic sensor (HC-SR04) to the Arduino.
   - VCC to Arduino 5V
