@@ -34,13 +34,10 @@ This project demonstrates the development of a contactless automatic hand saniti
 - Connect the ultrasonic sensor (HC-SR04) to the Arduino.
   - VCC to Arduino 5V
   - GND to Arduino GND
-  - Trig to Arduino digital pin (e.g., pin 9)
-  - Echo to Arduino digital pin (e.g., pin 10)
-- Connect the relay module to the Arduino and the pump motor.
-
+  - Trig to Arduino digital pin (e.g., pin 10)
+  - Echo to Arduino digital pin (e.g., pin 9)
+    
 ## Code
-
-Here is an example of Arduino code to operate the automatic dispenser:
 
 ```cpp
 #include <Servo.h>
