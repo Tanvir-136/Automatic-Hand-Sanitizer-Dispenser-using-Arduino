@@ -12,7 +12,6 @@ This project demonstrates the development of a contactless automatic hand saniti
 - [Code](#code)
 - [Installation](#installation)
 - [Usage](#usage)
-- [License](#license)
 
 ## Features
 
@@ -25,10 +24,10 @@ This project demonstrates the development of a contactless automatic hand saniti
 
 - **Microcontroller**: Arduino Uno or similar
 - **Ultrasonic Sensor**: HC-SR04
-- **Relay Module**: Controls the pump motor
-- **Mini Submersible Pump**: Dispenses liquid sanitizer
 - **Power Supply**: 5V power supply for Arduino and pump (adjust according to your setup)
-- **Breadboard & Jumper Wires**
+- **Switch**
+- **Jumper Wires**
+
 
 ## Circuit Diagram
 
@@ -40,47 +39,61 @@ This project demonstrates the development of a contactless automatic hand saniti
   - Trig to Arduino digital pin (e.g., pin 9)
   - Echo to Arduino digital pin (e.g., pin 10)
 - Connect the relay module to the Arduino and the pump motor.
-  - Relay control pin to Arduino digital pin (e.g., pin 8)
-  - Relay power pins to external power supply
-  - Pump motor connects to relay output
 
 ## Code
 
 Here is an example of Arduino code to operate the automatic dispenser:
 
 ```cpp
-#define TRIG_PIN 9
-#define ECHO_PIN 10
-#define RELAY_PIN 8
-#define THRESHOLD_DISTANCE 10  // distance in cm
+#include <Servo.h>
+
+Servo Myservo;
+#define trigPin 10           // Trig Pin of HC-SR04
+#define echoPin 9            // Echo Pin of HC-SR04
+#define trigout 8            // Left motor 1st pin
+
+int pos = 60;                // Starting position of the servo
+long duration, distance;
+bool rotationDone = false;   // Flag to track rotation status
 
 void setup() {
-  pinMode(TRIG_PIN, OUTPUT);
-  pinMode(ECHO_PIN, INPUT);
-  pinMode(RELAY_PIN, OUTPUT);
-  digitalWrite(RELAY_PIN, HIGH);
+  Myservo.attach(5);          // Attach servo to pin 5
   Serial.begin(9600);
+  pinMode(trigPin, OUTPUT);   // Set Trig Pin as O/P to transmit waves
+  pinMode(echoPin, INPUT);    // Set Echo Pin as I/P to receive reflected waves
+  pinMode(trigout, OUTPUT);
 }
 
 void loop() {
-  long duration, distance;
-  
-  digitalWrite(TRIG_PIN, LOW);
+  digitalWrite(trigPin, LOW);
   delayMicroseconds(2);
-  digitalWrite(TRIG_PIN, HIGH);
+  digitalWrite(trigPin, HIGH); // Transmit waves for 10us
   delayMicroseconds(10);
-  digitalWrite(TRIG_PIN, LOW);
-  
-  duration = pulseIn(ECHO_PIN, HIGH);
-  distance = duration * 0.034 / 2;
+  digitalWrite(trigPin, LOW);
 
-  if (distance < THRESHOLD_DISTANCE && distance > 0) {
-    digitalWrite(RELAY_PIN, LOW);  // Turn on pump
-    delay(1000);                   // Dispense sanitizer for 1 second
-    digitalWrite(RELAY_PIN, HIGH); // Turn off pump
-    delay(2000);                   // Wait before rechecking
+  duration = pulseIn(echoPin, HIGH);  // Receive reflected waves
+  distance = duration / 58.2;         // Calculate distance in cm
+
+  if (distance > 0 && distance < 10 && !rotationDone) { 
+    for (pos = 60; pos <= 150; pos += 2) {
+      Myservo.write(pos);
+      delay(15);
+    }
+    for (pos = 150; pos >= 60; pos -= 2) {
+      Myservo.write(pos);
+      delay(15);
+    }
+    rotationDone = true; 
+  } 
+  else if (distance >= 10) {
+    Myservo.write(60);  // Reset position to 60 degrees if no object detected
+    rotationDone = false; // Reset the flag when the object moves away
   }
+
+  Serial.println(distance);   // Print distance for debugging
+  delay(500);                // Add delay to avoid too frequent readings
 }
+
 ```
 
 ## Installation
@@ -92,12 +105,9 @@ void loop() {
 ## Usage
 
 1. Place your hand near the dispenser.
-2. The ultrasonic sensor detects your hand and activates the pump motor.
+2. The ultrasonic sensor detects your hand and activates the servo motor.
 3. Sanitizer is dispensed automatically without contact.
 
 ### Adjusting Detection Distance
 You can change `THRESHOLD_DISTANCE` in the code to set how close a hand should be before the sanitizer is dispensed.
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
