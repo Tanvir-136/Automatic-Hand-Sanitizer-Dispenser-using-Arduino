@@ -29,7 +29,8 @@ This project demonstrates the development of a contactless automatic hand saniti
 
 ## Circuit Diagram
 
-![Circuit Diagram](Automatic-Hand-Sanitizer-Dispenser-using-Arduino/Automatic Hand Sanitizer- Circuit Diagram.jpg)
+![Circuit Diagram](Automatic-Hand-Sanitizer-Dispenser-using-Arduino/Automatic-Hand-Sanitizer-Circuit-Diagram.jpg)
+
 
 - Connect the ultrasonic sensor (HC-SR04) to the Arduino.
   - VCC to Arduino 5V
