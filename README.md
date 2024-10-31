@@ -29,13 +29,20 @@ This project demonstrates the development of a contactless automatic hand saniti
 
 ## Circuit Diagram
 
-![Circuit Diagram]([Automatic-Hand-Sanitizer-Circuit-Diagram.jpg](https://github.com/Tanvir-136/Automatic-Hand-Sanitizer-Dispenser-using-Arduino/blob/main/Automatic%20Hand%20Sanitizer-%20Circuit%20Diagram.jpg))
-
 - Connect the ultrasonic sensor (HC-SR04) to the Arduino.
   - VCC to Arduino 5V
   - GND to Arduino GND
   - Trig to Arduino digital pin (e.g., pin 10)
   - Echo to Arduino digital pin (e.g., pin 9)
+    
+- Connect the battery to the arduino
+  - positive terminal to Vin
+  - negative terminal to GND
+    
+- Connect Servo motor to the arduino
+  - Connect the power(orange colour) wire to Arduino 5V
+  - Connect the yellow wire to pin no. 5
+  - Connect the brown/black colour wire to GND
     
 ## Code
 
